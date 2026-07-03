@@ -2,6 +2,7 @@ services:
   kong:
     image: kong:3.8
     container_name: kong
+
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
@@ -20,3 +21,16 @@ services:
 
     volumes:
       - ./kong.yml:/kong/declarative/kong.yml
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+
+    ports:
+      - "8081:80"
+
+    volumes:
+      - ./nginx:/etc/nginx:ro
+
+    depends_on:
+      - kong
